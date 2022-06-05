@@ -115,6 +115,10 @@ File_file_tq get_all_path_file_s(const char *path, const char *extension){
 			supp_tete_fd(&file_directory);
 			close_directory(&dir);
 		}
+		while(file_directory.tete != NULL){
+
+			supp_tete_fd(&file_directory);
+		}
 	}
 
 	return file;
