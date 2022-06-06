@@ -1,6 +1,11 @@
+/*
+Auteur Gautier Levesque
+06/06/2022
+*/
+
 #include "directory.h"
 
-File_file_tq get_all_path_file(const char *path, const char *extension){
+File_file_tq get_all_path_file(const char *path, const char **extension, int nb_extension){
 
 	assert(extension != NULL);
 	assert(path != NULL);
@@ -11,8 +16,6 @@ File_file_tq get_all_path_file(const char *path, const char *extension){
 
 	if(extension != NULL && path != NULL){	
 
-		int size_extension = strlen(extension);
-
 		DIR *dir = open_directory(path);
 		struct dirent *current_file = NULL;
 		insert_fd(&file, NULL, path);
@@ -22,22 +25,33 @@ File_file_tq get_all_path_file(const char *path, const char *extension){
 			if(strcmp(current_file->d_name, ".") != 0 && strcmp(current_file->d_name, "..") != 0){
 
 				int size_path = strlen(current_file->d_name);
-				int i = size_extension;
-				int j = size_path;
+				int indice_extension = 0;
+				int good_extension = 0;
 
-				while(i >= 0 && j >= 0){
+				while(good_extension == 0 && indice_extension < nb_extension){
 
-					if(strcmp(&extension[i], &current_file->d_name[j]) != 0){
+					int i = strlen(extension[indice_extension]);
+					int j = size_path;
 
-						j = -1;
+					while(i >= 0 && j >= 0){
+
+						if(strcmp(&extension[indice_extension][i], &current_file->d_name[j]) != 0){
+
+							j = -1;
+						}
+						else{
+
+							i -= 1;
+							j -= 1;
+						}
 					}
-					else{
+					if(i < 0){
 
-						i -= 1;
-						j -= 1;
+						good_extension = 1;
 					}
+					indice_extension += 1;
 				}
-				if(i < 0){
+				if(good_extension == 1){
 
 					insert_fd(&file, current_file->d_name, file.tete->name);
 				}
@@ -51,7 +65,7 @@ File_file_tq get_all_path_file(const char *path, const char *extension){
 	return file;
 }
 
-File_file_tq get_all_path_file_s(const char *path, const char *extension){
+File_file_tq get_all_path_file_s(const char *path, const char **extension, int nb_extension){
 
 	assert(extension != NULL);
 	assert(path != NULL);
@@ -64,9 +78,13 @@ File_file_tq get_all_path_file_s(const char *path, const char *extension){
 	file.tete = NULL;
 	file.queue = NULL;
 
-	if(extension != NULL && path != NULL){	
+	/*for(int i = 0; i < 2; i++){
 
-		int size_extension = strlen(extension);
+		printf("%s\n", extension[i]);
+		printf("strlen : %d\n", strlen(extension[i]));
+	}*/
+
+	if(extension != NULL && path != NULL){	
 
 		insert_fd(&file_directory, NULL, path);
 
@@ -85,24 +103,35 @@ File_file_tq get_all_path_file_s(const char *path, const char *extension){
 					if(is_dir == 0){
 
 						int size_path = strlen(current_file->d_name);
-						int i = size_extension;
-						int j = size_path;
+						int indice_extension = 0;
+						int good_extension = 0;
 
-						while(i >= 0 && j >= 0){
+						while(good_extension == 0 && indice_extension < nb_extension){
 
-							if(strcmp(&extension[i], &current_file->d_name[j]) != 0){
+							int i = strlen(extension[indice_extension]);
+							int j = size_path;
 
-								j = -1;
+							while(i >= 0 && j >= 0){
+
+								if(strcmp(&extension[indice_extension][i], &current_file->d_name[j]) != 0){
+
+									j = -1;
+								}
+								else{
+
+									i -= 1;
+									j -= 1;
+								}
 							}
-							else{
+							if(i < 0){
 
-								i -= 1;
-								j -= 1;
+								good_extension = 1;
 							}
+							indice_extension += 1;
 						}
-						if(i < 0){
+						if(good_extension == 1){
 
-							insert_fd(&file, current_file->d_name, file_directory.queue->name);
+							insert_fd(&file, current_file->d_name, file_directory.tete->name);
 						}
 					}
 					else{
@@ -114,10 +143,6 @@ File_file_tq get_all_path_file_s(const char *path, const char *extension){
 
 			supp_tete_fd(&file_directory);
 			close_directory(&dir);
-		}
-		while(file_directory.tete != NULL){
-
-			supp_tete_fd(&file_directory);
 		}
 	}
 

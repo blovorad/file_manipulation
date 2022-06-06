@@ -1,3 +1,8 @@
+/*
+Auteur Gautier Levesque
+06/06/2022
+*/
+
 #ifndef __DIRECTORY_H__
 #define __DIRECTORY_H__
 
@@ -18,9 +23,9 @@ int file_exist(const char *filename, const char *path);
 int file_exist_s(const char *filename, const char *path);
 
 /*fonction de sauvegarde de tous les fichiers selon extension, d'un dossier*/
-File_file_tq get_all_path_file(const char *path, const char *extension);
+File_file_tq get_all_path_file(const char *path, const char **extension, int nb_extension);
 /*fonction de sauvegarde de tous les fichiers selon extension, de dossier/sous-dossier*/
-File_file_tq get_all_path_file_s(const char *path, const char *extension);
+File_file_tq get_all_path_file_s(const char *path, const char **extension, int nb_extension);
 
 /*verification si repertoire*/
 int check_if_directory(struct dirent *current_file);
