@@ -1,3 +1,8 @@
+/*
+Auteur Gautier Levesque
+06/06/2022
+*/
+
 #include "file_directory.h"
 
 void insert_fd(File_file_tq *f, const char *name, const char *path){
@@ -42,7 +47,7 @@ void insert_fd(File_file_tq *f, const char *name, const char *path){
 		f->queue = tmp;
 	}
 
-	printf("Insertion : %s\n", f->queue->name);
+	//printf("Insertion : %s\n", f->queue->name);
 }
 
 void supp_tete_fd(File_file_tq *f){

@@ -1,3 +1,8 @@
+/*
+Auteur Gautier Levesque
+06/06/2022
+*/
+
 #ifndef __FILE_DIRECTORY_H__
 #define __FILE_DIRECTORY_H__
 

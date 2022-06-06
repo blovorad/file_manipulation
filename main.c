@@ -1,3 +1,8 @@
+/*
+Auteur Gautier Levesque
+06/06/2022
+*/
+
 /*include standards entrer/sortie et malloc*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,9 +12,10 @@
 /*fonction principale*/
 int main(void){
 
-	printf("fichier trouver : %d\n", file_exist_s("bidule.txt", "."));
+	printf("fichier trouver bidule.txt : %d\n", file_exist_s("bidule.txt", "."));
 
-	File_file_tq file = get_all_path_file_s(".", ".c");
+	const char *extension[] = {".c", ".h"};
+	File_file_tq file = get_all_path_file_s(".", extension, 2);
 
 	while(file.tete != NULL){
 
