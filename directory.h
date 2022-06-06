@@ -30,4 +30,7 @@ File_file_tq get_all_path_file_s(const char *path, const char **extension, int n
 /*verification si repertoire*/
 int check_if_directory(struct dirent *current_file);
 
+/*creation d'une arborescence pour un fichier specifique*/
+void creat_arborescence(const char *path);
+
 #endif

@@ -273,3 +273,64 @@ int check_if_directory(struct dirent *current_file){
 
 	return is_dir;
 }
+
+void creat_arborescence(const char *path){
+
+	assert(path != NULL);
+
+	int good_place = 0;
+	int index_slash = 0;
+	int size_path = strlen(path);
+
+	while(good_place == 0){
+
+		int found = 0;
+		int i = index_slash;
+		while(i < size_path && found == 0){
+
+			i++;
+			if(i < size_path){
+
+				if(path[i] == '/'){
+
+					index_slash = i;
+					found = 1;
+				}
+			}
+		}
+
+		if(i < size_path){
+
+			char *sub_string = malloc(sizeof(char) * (index_slash + 1));
+			if(sub_string == NULL){
+
+				perror("malloc failed");
+				exit(1);
+			}
+
+			sub_string[index_slash] = '\0';
+			for(int j = 0; j < index_slash; j++){
+
+				sub_string[j] = path[j];
+			}
+
+			DIR *dir = opendir(sub_string);
+			if(dir != NULL){
+
+				close_directory(&dir);
+				dir = NULL;
+			}
+			else{
+
+				creat_directory(sub_string);
+			}
+
+			free(sub_string);
+			sub_string = NULL;
+		}
+		else{
+
+			good_place = 1;
+		}
+	}
+}
